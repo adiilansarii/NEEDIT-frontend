@@ -12,7 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3011/", {
+    fetch("https://needit-backend.onrender.com/", {
       credentials: "include", // include cookies
     })
       .then((res) => {
