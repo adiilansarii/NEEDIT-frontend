@@ -1,40 +1,38 @@
 import React, { useState } from "react";
 import "../css/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
-  e.preventDefault(); // stop page reload on submit
+    e.preventDefault();
 
-  if (!email || !password) {
-    alert("All fields are required");
-    return;
-  }
-
-  try {
-    const res = await fetch("https://needit-backend.onrender.com/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include"
-    });
-
-    if (res.ok) {
-      window.location.href = "/";
-    } else {
-      const errData = await res.json();
-      alert(errData.message || "Login failed");
+    if (!email || !password) {
+      alert("All fields are required");
+      return;
     }
-  } catch (err) {
-    console.error("Error during login:", err);
-    alert("Something went wrong. Please try again.");
-  }
-};
 
+    try {
+      // POST request with axios
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/login`,
+        { email, password },
+        { withCredentials: true } // ✅ allows cookie-based session
+      );
+
+      if (res.status === 200) {
+        alert("Login successful!");
+        navigate("/"); // redirect after login
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert(err.response?.data?.message || "Login failed, please try again.");
+    }
+  };
 
   return (
     <div className="login-container">
