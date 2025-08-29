@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const Signup = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -12,25 +14,43 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "https://needit-backend.onrender.com/signup",
-        form,
-        { withCredentials: true } // ✅ include cookies
-      );
-      window.location.href = "/"; // redirect after signup
+      await axios.post("https://needit-backend.onrender.com/signup", form, {
+        withCredentials: true,
+      });
+      window.location.href = "/";
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="username" placeholder="Username" onChange={handleChange} />
-      <input name="email" type="email" placeholder="Email" onChange={handleChange} />
-      <input name="password" type="password" placeholder="Password" onChange={handleChange} />
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div>
+      <h2>Signup</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+          name="username"
+          placeholder="Username"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
   );
 };
 
