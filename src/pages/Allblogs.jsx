@@ -14,7 +14,7 @@ export default function BlogList() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("https://needit-backend.onrender.com/blogs");
+        const res = await axios.get("http://localhost:3011/blogs");
         setBlogs(res.data); // Save blogs in state
       } catch (err) {
         console.error("Error fetching blogs:", err);

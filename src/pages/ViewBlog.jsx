@@ -20,7 +20,7 @@ const ViewBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`https://needit-backend.onrender.com/blogs/${id}`);
+        const res = await axios.get(`http://localhost:3011/blogs/${id}`);
         const data = res.data;
         setBlogData(data);
         setLikes(data.likes || 0);
