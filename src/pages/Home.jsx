@@ -7,25 +7,22 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Home() {
-  const [user, setUser] = useState(null); // store logged-in user
+  const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/`, // backend URL from env
-          { withCredentials: true } // send cookies
-        );
+        const res = await axios.get("https://needit-backend.onrender.com/", {
+          withCredentials: true, // important for cookies/session
+        });
         setUser(res.data.user);
       } catch (err) {
-        console.error("Not logged in:", err.message);
         setUser(null);
       } finally {
         setLoading(false);
       }
     };
-
     checkUser();
   }, []);
 
@@ -36,9 +33,7 @@ export default function Home() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-left">
-          <p className="tagline">
-            From Preparation to Celebration - Start Today
-          </p>
+          <p className="tagline">From Preparation to Celebration - Start Today</p>
           <h1 className="hero-title">
             Real Stories. Real Questions. Real Success.
           </h1>
@@ -59,13 +54,9 @@ export default function Home() {
               cutting-edge tech articles.
             </p>
             {user ? (
-              <Link to="/blogs" className="explore-btn">
-                View
-              </Link>
+              <Link to="/blogs" className="explore-btn">View</Link>
             ) : (
-              <Link to="/signup" className="explore-btn">
-                Sign Up
-              </Link>
+              <Link to="/signup" className="explore-btn">Sign Up</Link>
             )}
           </div>
         </aside>
@@ -76,9 +67,7 @@ export default function Home() {
         <section className="features">
           <Link to="/blogs" className="contri">
             <div className="feature">
-              <div className="feature-icon">
-                <PiStudentBold />
-              </div>
+              <div className="feature-icon"><PiStudentBold /></div>
               <div className="feature-body">
                 <h4>Students Contributions</h4>
                 <p className="muted">Trusted Insights</p>
@@ -94,9 +83,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <div className="feature">
-              <div className="feature-icon">
-                <FaRegNewspaper />
-              </div>
+              <div className="feature-icon"><FaRegNewspaper /></div>
               <div className="feature-body">
                 <h4>Tech Updates</h4>
                 <p className="muted">Stay Connected</p>
@@ -112,9 +99,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <div className="feature">
-              <div className="feature-icon">
-                <GrResources />
-              </div>
+              <div className="feature-icon"><GrResources /></div>
               <div className="feature-body">
                 <h4>Top-Notch Resources</h4>
                 <p className="muted">Built to Power Your Prep</p>
@@ -127,9 +112,7 @@ export default function Home() {
         <section className="features">
           <Link to="/login" className="contri">
             <div className="feature">
-              <div className="feature-icon">
-                <PiStudentBold />
-              </div>
+              <div className="feature-icon"><PiStudentBold /></div>
               <div className="feature-body">
                 <h4>Students Contributions</h4>
                 <p className="muted">Trusted Insights</p>
@@ -140,9 +123,7 @@ export default function Home() {
 
           <Link to="/login" className="contri">
             <div className="feature">
-              <div className="feature-icon">
-                <FaRegNewspaper />
-              </div>
+              <div className="feature-icon"><FaRegNewspaper /></div>
               <div className="feature-body">
                 <h4>Tech Updates</h4>
                 <p className="muted">Stay Connected</p>
@@ -153,9 +134,7 @@ export default function Home() {
 
           <Link to="/login" className="contri">
             <div className="feature">
-              <div className="feature-icon">
-                <GrResources />
-              </div>
+              <div className="feature-icon"><GrResources /></div>
               <div className="feature-body">
                 <h4>Top-Notch Resources</h4>
                 <p className="muted">Built to Power Your Prep</p>
