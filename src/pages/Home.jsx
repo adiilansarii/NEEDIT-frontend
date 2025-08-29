@@ -1,31 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Home.css";
 import { FaRegNewspaper } from "react-icons/fa";
 import { PiStudentBold } from "react-icons/pi";
 import { GrResources } from "react-icons/gr";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-
+import axios from "axios";
 
 export default function Home() {
- const [user, setUser] = useState(null); // store logged-in user
+  const [user, setUser] = useState(null); // store logged-in user
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://needit-backend.onrender.com/", {
-      credentials: "include", // include cookies
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Not logged in");
-        return res.json();
-      })
-      .then((data) => setUser(data.user))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+    const checkUser = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/`, // backend URL from env
+          { withCredentials: true } // send cookies
+        );
+        setUser(res.data.user);
+      } catch (err) {
+        console.error("Not logged in:", err.message);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkUser();
   }, []);
 
   if (loading) return <p>Loading...</p>;
-
 
   return (
     <div className="home-container">
@@ -54,124 +58,113 @@ export default function Home() {
               Get inspired and informed with our extensive collection of
               cutting-edge tech articles.
             </p>
-            {user?(<Link to="/blogs" className="explore-btn">
-              View
-            </Link>):(<Link to="/signup" className="explore-btn">
-              Sign Up
-            </Link>)}
+            {user ? (
+              <Link to="/blogs" className="explore-btn">
+                View
+              </Link>
+            ) : (
+              <Link to="/signup" className="explore-btn">
+                Sign Up
+              </Link>
+            )}
           </div>
         </aside>
       </section>
 
       {/* FEATURES */}
-      {user?(<section className="features">
-        <Link to="/blogs" className="contri">
-          <div className="feature">
-            <div className="feature-icon">
-              <PiStudentBold />
+      {user ? (
+        <section className="features">
+          <Link to="/blogs" className="contri">
+            <div className="feature">
+              <div className="feature-icon">
+                <PiStudentBold />
+              </div>
+              <div className="feature-body">
+                <h4>Students Contributions</h4>
+                <p className="muted">Trusted Insights</p>
+                <small>Written by Students from Your Own Campus</small>
+              </div>
             </div>
-            <div className="feature-body">
-              <h4>Students Contributions</h4>
-              <p className="muted">Trusted Insights</p>
-              <small>Written by Students from Your Own Campus</small>
-            </div>
-          </div>
-        </Link>
+          </Link>
 
-        <Link
-          to="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen"
-          className="contri"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="feature">
-            <div className="feature-icon">
-              <FaRegNewspaper />
-            </div>
-            <div className="feature-body">
-              <h4>
+          <Link
+            to="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen"
+            className="contri"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="feature">
+              <div className="feature-icon">
+                <FaRegNewspaper />
+              </div>
+              <div className="feature-body">
                 <h4>Tech Updates</h4>
-              </h4>
-              <p className="muted">Stay Connected</p>
-              <small>New Opportunities Added Every Day</small>
+                <p className="muted">Stay Connected</p>
+                <small>New Opportunities Added Every Day</small>
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
 
-        <Link
-          to="https://www.w3schools.com/"
-          className="contri"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="feature">
-            <div className="feature-icon">
-              <GrResources />
-            </div>
-            <div className="feature-body">
-              <h4>
+          <Link
+            to="https://www.w3schools.com/"
+            className="contri"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="feature">
+              <div className="feature-icon">
+                <GrResources />
+              </div>
+              <div className="feature-body">
                 <h4>Top-Notch Resources</h4>
-              </h4>
-              <p className="muted">Built to Power Your Prep</p>
-              <small>rusted by Students, Proven to Work</small>
+                <p className="muted">Built to Power Your Prep</p>
+                <small>Trusted by Students, Proven to Work</small>
+              </div>
             </div>
-          </div>
-        </Link>
-      </section>):(<section className="features">
-        <Link to="/login" className="contri">
-          <div className="feature">
-            <div className="feature-icon">
-              <PiStudentBold />
+          </Link>
+        </section>
+      ) : (
+        <section className="features">
+          <Link to="/login" className="contri">
+            <div className="feature">
+              <div className="feature-icon">
+                <PiStudentBold />
+              </div>
+              <div className="feature-body">
+                <h4>Students Contributions</h4>
+                <p className="muted">Trusted Insights</p>
+                <small>Written by Students from Your Own Campus</small>
+              </div>
             </div>
-            <div className="feature-body">
-              <h4>Students Contributions</h4>
-              <p className="muted">Trusted Insights</p>
-              <small>Written by Students from Your Own Campus</small>
-            </div>
-          </div>
-        </Link>
+          </Link>
 
-        <Link
-          to="/login"
-          className="contri"
-          rel="noopener noreferrer"
-        >
-          <div className="feature">
-            <div className="feature-icon">
-              <FaRegNewspaper />
-            </div>
-            <div className="feature-body">
-              <h4>
+          <Link to="/login" className="contri">
+            <div className="feature">
+              <div className="feature-icon">
+                <FaRegNewspaper />
+              </div>
+              <div className="feature-body">
                 <h4>Tech Updates</h4>
-              </h4>
-              <p className="muted">Stay Connected</p>
-              <small>New Opportunities Added Every Day</small>
+                <p className="muted">Stay Connected</p>
+                <small>New Opportunities Added Every Day</small>
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
 
-        <Link
-          to="/login"
-          className="contri"
-          rel="noopener noreferrer"
-        >
-          <div className="feature">
-            <div className="feature-icon">
-              <GrResources />
-            </div>
-            <div className="feature-body">
-              <h4>
+          <Link to="/login" className="contri">
+            <div className="feature">
+              <div className="feature-icon">
+                <GrResources />
+              </div>
+              <div className="feature-body">
                 <h4>Top-Notch Resources</h4>
-              </h4>
-              <p className="muted">Built to Power Your Prep</p>
-              <small>rusted by Students, Proven to Work</small>
+                <p className="muted">Built to Power Your Prep</p>
+                <small>Trusted by Students, Proven to Work</small>
+              </div>
             </div>
-          </div>
-        </Link>
-      </section>)
-      }
-
-    
+          </Link>
+        </section>
+      )}
     </div>
   );
 }
