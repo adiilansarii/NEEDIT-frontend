@@ -1,0 +1,206 @@
+.viewblog-container {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #111;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.view-blog-card {
+  background: #151515;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 1000px; /* Wider for desktop */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.view-blog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.avatar-placeholder {
+  background: #444; /* or any color you like */
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+}
+
+.author-name {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.blog-date {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.blog-title {
+  color: #f4c20d;
+  margin-top: .5rem;
+}
+
+.blog-category {
+  color: #aaa;
+  margin-top: 0;
+  font-size: 0.95rem;
+}
+
+.blog-content {
+  color: #eee;
+  line-height: 1.5;
+  margin: 0.8rem 0 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-buttons button {
+  background: none;
+  border: none;
+  color: #f4c20d;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.action-buttons button:hover {
+  color: #d9aa00;
+}
+
+/* Comment Section (Outside Card) */
+.comment-section {
+  background: #1a1a1a;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.add-comment {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.add-comment input {
+  flex: 1;
+  margin-bottom: 0.6rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #222;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.add-comment input:focus {
+  border-color: #f4c20d;
+  outline: none;
+}
+
+.add-comment button {
+  background: #f4c20d;
+  margin-bottom: 0.6rem;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #111;
+  font-size: 0.9rem;
+}
+
+.add-comment button:hover {
+  background: #d9aa00;
+}
+
+.previous-comments p {
+  margin-top: .3rem;
+  color: #ccc;
+  font-size: 0.85rem; /* slightly bigger for readability */
+  margin-bottom: 0.3rem;
+}
+
+.previous-comments strong {
+  font-size: 0.95rem; /* make name a little bigger */
+  color: #fff;
+}
+/* Buttons container - desktop */
+.desktop-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.desktop-actions button {
+  background: none;
+  border: 1px solid #f4c20d;
+  color: #f4c20d;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.desktop-actions button:hover {
+  background: #f4c20d;
+  color: #111;
+}
+
+/* Mobile 3-dot menu */
+.mobile-actions {
+  margin-left: auto;
+  position: relative;
+  display: none; /* hidden on desktop */
+}
+
+.mobile-menu {
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.mobile-menu button {
+  background: none;
+  border: none;
+  color: #f4c20d;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mobile-menu button:hover {
+  background: #333;
+}
+
+@media (max-width: 768px) {
+  .desktop-actions {
+    display: none;
+  }
+  .mobile-actions {
+    display: block;
+  }
+}
