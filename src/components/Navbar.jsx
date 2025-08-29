@@ -27,7 +27,7 @@ const Navbar = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      fetch("http://localhost:3011/", {
+      fetch("https://needit-backend.onrender.com/", {
         credentials: "include", // include cookies
       })
         .then((res) => {
@@ -43,7 +43,7 @@ const Navbar = () => {
       
   const handleLogout = async () => {
   try {
-    await fetch("http://localhost:3011/logout", {
+    await fetch("https://needit-backend.onrender.com/logout", {
       method: "GET",
       credentials: "include", // include cookies so the backend can clear them
     });
