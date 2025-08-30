@@ -15,23 +15,6 @@ import Signup from "./pages/Signup";
 import PostBlog from "./pages/PostBlog";
 import ViewBlog from "./pages/ViewBlog";
 
-// Fallback Page (for invalid routes)
-const NotFound = () => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",  // full screen height
-      backgroundColor: "black", // optional, so white text is visible
-    }}
-  >
-    <h2 style={{ color: "white" }}>404 - Page Not Found</h2>
-  </div>
-);
-
-
-
 function App() {
   return (
     <div className="page-container">
@@ -45,7 +28,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Profile />} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />
