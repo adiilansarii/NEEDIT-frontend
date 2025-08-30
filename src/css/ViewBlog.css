@@ -196,6 +196,40 @@
   background: #333;
 }
 
+.view-blog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.blog-actions {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: #f0f0f0;
+}
+
+.icon-btn.delete:hover {
+  background: #ffe5e5;
+  color: red;
+}
+
+
 @media (max-width: 768px) {
   .desktop-actions {
     display: none;
