@@ -27,7 +27,7 @@ const Login = () => {
 
       if (res.status === 200) {
         // login successful, redirect to home
-        navigate("/"); 
+        window.location.href = "/"; 
       }
     } catch (err) {
       console.error("Login error:", err.response || err);

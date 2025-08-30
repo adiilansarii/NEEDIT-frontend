@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
 
-const API_URL =baseURL ; // LIVE backend URL
+const API_URL = baseURL; // LIVE backend URL
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +29,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${API_URL}/`, { withCredentials: true });
+        const res = await axios.get(`${API_URL}`, { withCredentials: true });
         setUser(res.data.user);
       } catch (err) {
         setUser(null);
@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`${API_URL}/logout`, { withCredentials: true });
+      await axios.post(`${API_URL}/logout`, {},{ withCredentials: true });
       setUser(null);
       window.location.href = "/";
     } catch (err) {
@@ -65,24 +65,41 @@ const Navbar = () => {
 
       <div className="navbar-right">
         <div className="right-buttons desktop-only">
-          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>Contact Me</Link>
+          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>
+            Contact Me
+          </Link>
           {user ? (
-            <Link to="/" className="login-btn" onClick={handleLogout}>Logout</Link>
+            <Link to="/" className="login-btn" onClick={handleLogout}>
+              Logout
+            </Link>
           ) : (
-            <Link to="/login" className="login-btn" onClick={handleLinkClick}>Login</Link>
+            <Link to="/login" className="login-btn" onClick={handleLinkClick}>
+              Login
+            </Link>
           )}
         </div>
 
-        <div className="hamburger mobile-only" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
+        <div
+          className="hamburger mobile-only"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </div>
       </div>
 
       {menuOpen && (
         <div className="menu-dropdown mobile-only full-width-menu">
-          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>Contact Me</Link>
+          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>
+            Contact Me
+          </Link>
           {user ? (
-            <Link to="/" className="login-btn" onClick={handleLogout}>Logout</Link>
+            <Link to="/" className="login-btn" onClick={handleLogout}>
+              Logout
+            </Link>
           ) : (
-            <Link to="/login" className="login-btn" onClick={handleLinkClick}>Login</Link>
+            <Link to="/login" className="login-btn" onClick={handleLinkClick}>
+              Login
+            </Link>
           )}
         </div>
       )}
