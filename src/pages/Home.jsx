@@ -5,13 +5,14 @@ import { FaRegNewspaper } from "react-icons/fa";
 import { PiStudentBold } from "react-icons/pi";
 import { GrResources } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { baseURL } from "../url";
 
 export default function Home() {
   const [user, setUser] = useState(null);  // store logged-in user
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3011/", { withCredentials: true })
+    axios.get(baseURL, { withCredentials: true })
       .then((res) => {
         setUser(res.data.user); // directly access data
       })

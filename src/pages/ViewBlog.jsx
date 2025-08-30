@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/ViewBlog.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
 const ViewBlog = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const ViewBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`https://needit-backend.onrender.com/blogs/${id}`, {
+        const res = await axios.get(`${baseURL}${id}`, {
           withCredentials: true, // include cookies for auth
         });
         const data = res.data;
@@ -36,7 +37,7 @@ const ViewBlog = () => {
 
   const handleLike = async () => {
     try {
-      await axios.post(`https://needit-backend.onrender.com/blogs/${id}/like`, {}, { withCredentials: true });
+      await axios.post(`${baseURL}/blogs/${id}/like`, {}, { withCredentials: true });
       setLikes((prev) => prev + 1);
     } catch (err) {
       console.error("Failed to like blog:", err);
@@ -49,7 +50,7 @@ const ViewBlog = () => {
     if (newComment.trim() === "") return;
 
     try {
-      const res = await axios.post(`https://needit-backend.onrender.com/blogs/${id}/comment`, 
+      const res = await axios.post(`${baseURL}/blogs/${id}/comment`, 
         { text: newComment }, 
         { withCredentials: true }
       );

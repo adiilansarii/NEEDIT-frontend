@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://needit-backend.onrender.com/login", // live backend URL
+        `${baseURL}/login`, // live backend URL
         { email, password },
         { withCredentials: true } // include cookies
       );

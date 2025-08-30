@@ -3,8 +3,9 @@ import "../css/navbar.css";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
-const API_URL = "https://your-live-backend.com"; // LIVE backend URL
+const API_URL =baseURL ; // LIVE backend URL
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);

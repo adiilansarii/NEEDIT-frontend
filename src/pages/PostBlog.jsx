@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/PostBlog.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
 export default function PostBlog() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function PostBlog() {
 
     try {
       const res = await axios.post(
-        "https://needit-backend.onrender.com/blogs/post",
+        `${baseURL}/blogs/post`,
         formData,
         { withCredentials: true }
       );

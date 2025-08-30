@@ -3,6 +3,7 @@ import "../css/Allblogs.css";
 import BlogCard from "../components/BlogCard";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
 const categories = ["All", "Tech", "Non-Tech", "Core"];
 
@@ -14,7 +15,7 @@ export default function BlogList() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("https://needit-backend.onrender.com/blogs", {
+        const res = await axios.get(`${baseURL}/blogs`, {
           withCredentials: true, // if backend requires cookie auth
         });
         setBlogs(res.data); // Save blogs in state

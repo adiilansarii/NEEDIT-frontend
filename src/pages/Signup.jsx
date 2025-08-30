@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../url";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Signup = () => {
 
     try {
       const res = await axios.post(
-        "https://needit-backend.onrender.com/signup", // live backend
+        `${baseURL}/signup`, // live backend
         {
           fullName: formData.fullName,
           email: formData.email,
