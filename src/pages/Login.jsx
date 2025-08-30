@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import "../css/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { baseURL } from "../url";
+import "../css/Login.css";
+
+const baseURL = "https://needit-backend.onrender.com"; // make sure no trailing slash
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault();
 
     if (!email || !password) {
       alert("All fields are required");
@@ -18,16 +20,17 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        `${baseURL}/login`, // live backend URL
+        `${baseURL}/login`,
         { email, password },
-        { withCredentials: true } // include cookies
+        { withCredentials: true } // important for cookies
       );
 
       if (res.status === 200) {
-        window.location.href = "/"; // redirect to home
+        // login successful, redirect to home
+        navigate("/"); 
       }
     } catch (err) {
-      console.error("Login error:", err);
+      console.error("Login error:", err.response || err);
       const message = err.response?.data?.message || "Login failed";
       alert(message);
     }
