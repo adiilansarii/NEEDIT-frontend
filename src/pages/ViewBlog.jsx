@@ -3,13 +3,16 @@ import "../css/ViewBlog.css";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import { FiMoreVertical } from "react-icons/fi";
 
 const ViewBlog = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -33,7 +36,7 @@ const ViewBlog = () => {
     try {
       await axios.delete(`${baseURL}/blogs/${id}`, { withCredentials: true });
       alert("Blog deleted successfully!");
-      navigate("/"); // redirect to home after delete
+      navigate("/"); 
     } catch (err) {
       console.error("Error deleting blog:", err);
       alert("Failed to delete blog.");
@@ -52,23 +55,42 @@ const ViewBlog = () => {
       <div className="view-blog-card">
         <div className="view-blog-header">
           <div className="avatar-placeholder">
-            {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"} 
+            {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"}
           </div>
 
-          {/* User info + actions container */}
           <div className="author-info">
             <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
             <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
           </div>
 
-          {/* Action Buttons (Edit + Delete) */}
-          <div className="blog-actions">
+          {/* Desktop buttons */}
+          <div className="desktop-actions">
             <button className="icon-btn" onClick={handleEdit}>
-              <FiEdit size={18} />
+              <CiEdit size={20} />
             </button>
             <button className="icon-btn delete" onClick={handleDelete}>
-              <FiTrash2 size={18} />
+              <MdDelete size={20} />
             </button>
+          </div>
+
+          {/* Mobile actions (3-dot menu) */}
+          <div className="mobile-actions">
+            <button
+              className="icon-btn"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <FiMoreVertical size={20} />
+            </button>
+            {menuOpen && (
+              <div className="mobile-menu">
+                <button onClick={handleEdit}>
+                  <CiEdit size={18} /> Edit
+                </button>
+                <button onClick={handleDelete}>
+                  <MdDelete size={18} /> Delete
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
