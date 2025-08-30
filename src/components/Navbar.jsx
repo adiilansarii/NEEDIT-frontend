@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
 
+const API_URL =baseURL ; // LIVE backend URL
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -24,15 +26,12 @@ const Navbar = () => {
   }, []);
 
   // Fetch logged-in user
- useEffect(() => {
+  useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${baseURL}/`, {
-          withCredentials: true, // important for cookies
-        });
+        const res = await axios.get(`${API_URL}/`, { withCredentials: true });
         setUser(res.data.user);
       } catch (err) {
-        console.error("Fetch user error:", err.response || err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -45,13 +44,12 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`${baseURL}/logout`, { withCredentials: true });
+      await axios.get(`${API_URL}/logout`, { withCredentials: true });
       setUser(null);
       window.location.href = "/";
-    }  catch (err) {
-    console.error("Logout failed:", err.response || err);
-    alert("Logout failed. Please try again.");
-  }
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
