@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../css/ViewBlog.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const ViewBlog = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +15,7 @@ const ViewBlog = () => {
     const fetchBlog = async () => {
       try {
         const res = await axios.get(`${baseURL}/blogs/${id}`, {
-          withCredentials: true, // include cookies for auth if required
+          withCredentials: true,
         });
         setBlogData(res.data);
       } catch (err) {
@@ -26,6 +28,22 @@ const ViewBlog = () => {
     fetchBlog();
   }, [id]);
 
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this blog?")) return;
+    try {
+      await axios.delete(`${baseURL}/blogs/${id}`, { withCredentials: true });
+      alert("Blog deleted successfully!");
+      navigate("/"); // redirect to home after delete
+    } catch (err) {
+      console.error("Error deleting blog:", err);
+      alert("Failed to delete blog.");
+    }
+  };
+
+  const handleEdit = () => {
+    navigate(`/edit/${id}`);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (!blogData) return <p>Blog not found</p>;
 
@@ -34,11 +52,23 @@ const ViewBlog = () => {
       <div className="view-blog-card">
         <div className="view-blog-header">
           <div className="avatar-placeholder">
-            {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"}
+            {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"} 
           </div>
-          <div>
+
+          {/* User info + actions container */}
+          <div className="author-info">
             <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
             <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
+          </div>
+
+          {/* Action Buttons (Edit + Delete) */}
+          <div className="blog-actions">
+            <button className="icon-btn" onClick={handleEdit}>
+              <FiEdit size={18} />
+            </button>
+            <button className="icon-btn delete" onClick={handleDelete}>
+              <FiTrash2 size={18} />
+            </button>
           </div>
         </div>
 
