@@ -1,30 +1,54 @@
-import React from 'react';
-import './css/App.css';
+import React from "react";
+import "./css/App.css";
 import { Routes, Route } from "react-router-dom";
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
+
+// Components
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Profile from "./components/Profile";
+
+// Pages
+import Home from "./pages/Home";
 import Allblogs from "./pages/Allblogs";
-import Footer from './components/Footer';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import PostBlog from './pages/PostBlog';
-import ViewBlog from './pages/ViewBlog';
-import Profile from './components/Profile';
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import PostBlog from "./pages/PostBlog";
+import ViewBlog from "./pages/ViewBlog";
+
+// Fallback Page (for invalid routes)
+const NotFound = () => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",  // full screen height
+      backgroundColor: "black", // optional, so white text is visible
+    }}
+  >
+    <h2 style={{ color: "white" }}>404 - Page Not Found</h2>
+  </div>
+);
+
+
 
 function App() {
   return (
     <div className="page-container">
-      <Navbar/>
+      <Navbar />
+
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/blogs" element={<Allblogs/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/blogs/post" element={<PostBlog/>} />
-        <Route path="/blogs/:id" element={<ViewBlog/>} />
-        <Route path="/contact" element={<Profile/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={<Allblogs />} />
+        <Route path="/blogs/post" element={<PostBlog />} />
+        <Route path="/blogs/:id" element={<ViewBlog />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/contact" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

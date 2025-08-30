@@ -2,11 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import "../css/navbar.css";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+const API_URL = "https://your-live-backend.com"; // LIVE backend URL
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Detect clicks outside menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -14,50 +21,40 @@ const Navbar = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLinkClick = () => {
-    setMenuOpen(false);
+  // Fetch logged-in user
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/`, { withCredentials: true });
+        setUser(res.data.user);
+      } catch (err) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleLinkClick = () => setMenuOpen(false);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get(`${API_URL}/logout`, { withCredentials: true });
+      setUser(null);
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
-   const [user, setUser] = useState(null); // store logged-in user
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      fetch("http://localhost:3011/", {
-        credentials: "include", // include cookies
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Not logged in");
-          return res.json();
-        })
-        .then((data) => setUser(data.user))
-        .catch(() => setUser(null))
-        .finally(() => setLoading(false));
-    }, []);
-  
-    if (loading) return <p>Loading...</p>;
-      
-  const handleLogout = async () => {
-  try {
-    await fetch("http://localhost:3011/logout", {
-      method: "GET",
-      credentials: "include", // include cookies so the backend can clear them
-    });
-    setUser(null); // remove user from state
-    window.location.href = "/"; // redirect to homepage
-  } catch (err) {
-    console.error("Logout failed", err);
-  }
-};
-
+  if (loading) return <p>Loading...</p>;
 
   return (
     <nav className="navbar" ref={menuRef}>
-      {/* Left Logo */}
       <div className="navbar-left">
         <Link to="/" className="navbar-logo" onClick={handleLinkClick}>
           <img src={logo} alt="Logo" className="logo-img" />
@@ -65,37 +62,27 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Right Section */}
       <div className="navbar-right">
-        {/* Right buttons always on desktop */}
         <div className="right-buttons desktop-only">
-          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>
-            Contact Me
-          </Link>
-          {user?(<Link to="/" className="login-btn" onClick={handleLogout}>
-            Logout
-          </Link>):(<Link to="/login" className="login-btn" onClick={handleLinkClick}>
-            Login
-          </Link>)}
+          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>Contact Me</Link>
+          {user ? (
+            <Link to="/" className="login-btn" onClick={handleLogout}>Logout</Link>
+          ) : (
+            <Link to="/login" className="login-btn" onClick={handleLinkClick}>Login</Link>
+          )}
         </div>
 
-        {/* Hamburger for mobile */}
-        <div className="hamburger mobile-only" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
-        </div>
+        <div className="hamburger mobile-only" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
       </div>
 
-      {/* Mobile full-width dropdown */}
       {menuOpen && (
         <div className="menu-dropdown mobile-only full-width-menu">
-          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>
-            Contact Me
-          </Link>
-          {user?(<Link to="/" className="login-btn" onClick={handleLogout}>
-            Logout
-          </Link>):(<Link to="/login" className="login-btn" onClick={handleLinkClick}>
-            Login
-          </Link>)}
+          <Link to="/contact" className="contact-btn" onClick={handleLinkClick}>Contact Me</Link>
+          {user ? (
+            <Link to="/" className="login-btn" onClick={handleLogout}>Logout</Link>
+          ) : (
+            <Link to="/login" className="login-btn" onClick={handleLinkClick}>Login</Link>
+          )}
         </div>
       )}
     </nav>

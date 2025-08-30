@@ -1,26 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link
 import "../css/Profile.css";
 import pro from "../assets/img.jpg";
-import {
-  FaMapMarkerAlt,
-  FaGlobe,
-  FaEnvelope,
-  FaBriefcase,
-  FaInstagram,
-  FaLinkedin,
-  FaMailBulk,
-} from "react-icons/fa";
+import { FaMailBulk, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Profile() {
   return (
     <div className="profile-container">
-      {/* Cover */}
       <div className="cover"></div>
 
-      {/* Main content */}
       <div className="profile-content">
-        {/* Left/Main Column */}
         <div className="main-column">
           <div className="profile-header">
             <img src={pro} alt="Profile" className="profile-pic" />
@@ -28,11 +16,12 @@ export default function Profile() {
             <p className="username">@ECE</p>
             <div className="profile-buttons">
               <button className="btn-outline">View Posts</button>
-              <Link
-              to="https://www.linkedin.com/in/adil-ansari35830/"
-              target="_blank"
-              className="btn-primary"
-            >+ Follow</Link>
+              <a
+                href="https://www.linkedin.com/in/adil-ansari35830/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >+ Follow</a>
             </div>
           </div>
 
@@ -43,20 +32,20 @@ export default function Profile() {
               React.js, Node.js, Express, and Mongoose. I enjoy building
               visually appealing and functional websites with clean design and
               smooth performance.
-              <p className="padd">
-                This blog is one of my creations, built to share meaningful
-                content with users like you
-              </p>
+            </p>
+            <p className="padd">
+              This blog is one of my creations, built to share meaningful
+              content with users like you
             </p>
           </section>
         </div>
 
-        {/* Right Sidebar */}
         <aside className="sidebar">
           <div className="side-card">
-            <Link
-              to="https://mail.google.com/mail/?view=cm&to=adilansari701197@gmail.com"
+            <a
+              href="https://mail.google.com/mail/?view=cm&to=adilansari701197@gmail.com"
               target="_blank"
+              rel="noopener noreferrer"
               className="side-card-item clickable"
             >
               <FaMailBulk className="side-card-icon" />
@@ -64,10 +53,12 @@ export default function Profile() {
                 <strong>Gmail</strong>
                 <p>adilansari701197@gmail.com</p>
               </div>
-            </Link>
-            <Link
-              to="https://www.instagram.com/adiilansarii/"
+            </a>
+
+            <a
+              href="https://www.instagram.com/adiilansarii/"
               target="_blank"
+              rel="noopener noreferrer"
               className="side-card-item clickable"
             >
               <FaInstagram className="side-card-icon"/>
@@ -75,10 +66,12 @@ export default function Profile() {
                 <strong>Instagram</strong>
                 <p>@adiilansarii</p>
               </div>
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/adil-ansari35830/"
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/adil-ansari35830/"
               target="_blank"
+              rel="noopener noreferrer"
               className="side-card-item clickable"
             >
               <FaLinkedin className="side-card-icon"/>
@@ -86,7 +79,7 @@ export default function Profile() {
                 <strong>LinkedIn</strong>
                 <p>linkedin.com/in/adil-ansari35830</p>
               </div>
-            </Link>
+            </a>
           </div>
         </aside>
       </div>

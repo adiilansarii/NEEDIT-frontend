@@ -1,14 +1,23 @@
 import React from "react";
-import "../css/BlogCard.css"; // This will now style same as Allblogs.css card styles
-import { AiOutlineLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
-import { CiLocationArrow1 } from "react-icons/ci";
+import "../css/BlogCard.css";
 import { Link } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
+  const getTimeAgo = (createdAt) => {
+    const now = new Date();
+    const diffMs = now - new Date(createdAt);
+    const diffSeconds = Math.floor(diffMs / 1000);
+    if (diffSeconds < 60) return `${diffSeconds} seconds ago`;
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays} days ago`;
+  };
+
   return (
     <div className="blog-card">
-      {/* Left section */}
       <div className="blog-left">
         <div className="avatar-placeholder">
           {blog.user?.fullName?.charAt(0).toUpperCase() || "U"}
@@ -19,34 +28,13 @@ const BlogCard = ({ blog }) => {
         </div>
       </div>
 
-      {/* Middle section */}
       <div className="blog-middle">
-        <p className="date">
-          {(() => {
-            const now = new Date();
-            const created = new Date(blog.createdAt);
-            const diffMs = now - created; // difference in milliseconds
-            const diffSeconds = Math.floor(diffMs / 1000);
-            const diffMinutes = Math.floor(diffSeconds / 60);
-            const diffHours = Math.floor(diffMinutes / 60);
-            const diffDays = Math.floor(diffHours / 24);
-
-            if (diffSeconds < 60) return `${diffSeconds} seconds ago`;
-            if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
-            if (diffHours < 24) return `${diffHours} hours ago`;
-            return `${diffDays} days ago`;
-          })()}
-        </p>
+        <p className="date">{getTimeAgo(blog.createdAt)}</p>
         <h2 className="title">{blog.title}</h2>
-        <p className="type">
-          {blog.company} <span>|</span> {blog.category}
-        </p>
-        <p className="desc">
-          {blog.content.split(" ").slice(0, 15).join(" ")}...
-        </p>
+        <p className="type">{blog.company} <span>|</span> {blog.category}</p>
+        <p className="desc">{blog.content.split(" ").slice(0, 15).join(" ")}...</p>
       </div>
 
-      {/* Right section */}
       <div className="blog-right">
         <Link to={`/blogs/${blog._id}`} className="view-btn">
           View

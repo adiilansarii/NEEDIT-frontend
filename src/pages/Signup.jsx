@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "../css/Signup.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -30,33 +29,30 @@ const Signup = () => {
       return;
     }
 
-    // 1. Check password match
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
     try {
-      // 2. Send data to backend
-      const res = await fetch("http://localhost:3011/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const res = await axios.post(
+        "https://needit-backend.onrender.com/signup", // live backend
+        {
           fullName: formData.fullName,
           email: formData.email,
           password: formData.password,
-        }),
-      });
-      if (res.ok) {
+        },
+        { withCredentials: true } // send cookies
+      );
+
+      if (res.status === 201) {
         alert("Account created successfully!");
-        navigate("/login"); // using useNavigate from react-router-dom
-      } else {
-        const errData = await res.json();
-        alert(errData.message || "Signup failed");
+        navigate("/login");
       }
     } catch (err) {
-      console.error("Error during signup:", err);
-      alert("Something went wrong. Please try again.");
+      console.error("Signup error:", err);
+      const message = err.response?.data?.message || "Signup failed";
+      alert(message);
     }
   };
 

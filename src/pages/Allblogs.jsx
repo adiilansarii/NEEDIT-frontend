@@ -10,14 +10,17 @@ export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch blogs from backend
+  // Fetch blogs from live backend
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:3011/blogs");
+        const res = await axios.get("https://needit-backend.onrender.com/blogs", {
+          withCredentials: true, // if backend requires cookie auth
+        });
         setBlogs(res.data); // Save blogs in state
       } catch (err) {
         console.error("Error fetching blogs:", err);
+        alert("Failed to fetch blogs. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -54,9 +57,7 @@ export default function BlogList() {
       {/* Blog List */}
       <div className="blog-list">
         {blogs.length > 0 ? (
-          blogs.map((blog, index) => (
-            <BlogCard key={index} blog={blog} />
-          ))
+          blogs.map((blog, index) => <BlogCard key={index} blog={blog} />)
         ) : (
           <p>No blogs found.</p>
         )}

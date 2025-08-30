@@ -3,6 +3,8 @@ import "../css/Footer.css";
 import { FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
+  const year = new Date().getFullYear(); // dynamic year
+
   return (
     <footer className="footer">
       <div className="footer-left">
@@ -24,7 +26,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-right">
-        <p>© 2025 NEED IT. All rights reserved.</p>
+        <p>© {year} NEED IT. All rights reserved.</p>
       </div>
     </footer>
   );
