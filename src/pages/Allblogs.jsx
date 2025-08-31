@@ -12,10 +12,8 @@ export default function BlogList() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Get logged-in user safely
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-  // Fetch blogs from backend
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -35,7 +33,6 @@ export default function BlogList() {
 
   if (loading) return <div className="blog-container">Loading blogs...</div>;
 
-  // Filter blogs by selected category
   const filteredBlogs =
     selectedCategory === "All"
       ? blogs
@@ -43,7 +40,6 @@ export default function BlogList() {
 
   return (
     <div className="blog-container">
-      {/* Header */}
       <div className="blog-header-with-btn">
         <div className="blog-header">
           <span className="blog-tag">All You Need to Know</span>
@@ -56,9 +52,7 @@ export default function BlogList() {
         {categories.map((cat, index) => (
           <button
             key={index}
-            className={`category-btn ${
-              selectedCategory === cat ? "active" : ""
-            }`}
+            className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
             onClick={() => setSelectedCategory(cat)}
           >
             {cat}
@@ -72,8 +66,8 @@ export default function BlogList() {
       {/* Blog List */}
       <div className="blog-list">
         {filteredBlogs.length > 0 ? (
-          filteredBlogs.map((blog, index) => (
-            <BlogCard key={index} blog={blog} loggedInUserId={user._id} />
+          filteredBlogs.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} loggedInUser={loggedInUser} />
           ))
         ) : (
           <p>No blogs found for {selectedCategory}.</p>
