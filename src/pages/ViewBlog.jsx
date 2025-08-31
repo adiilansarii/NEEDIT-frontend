@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../css/ViewBlog.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
-import { CiEdit } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
-import { FiMoreVertical } from "react-icons/fi";
 
 const ViewBlog = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Get logged-in user safely
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -34,26 +26,8 @@ const ViewBlog = () => {
     fetchBlog();
   }, [id]);
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this blog?")) return;
-    try {
-      await axios.delete(`${baseURL}/blogs/${id}`, { withCredentials: true });
-      alert("Blog deleted successfully!");
-      navigate("/blogs");
-    } catch (err) {
-      console.error("Error deleting blog:", err);
-      alert("Failed to delete blog.");
-    }
-  };
-
-  const handleEdit = () => {
-    navigate(`/edit/${id}`);
-  };
-
   if (loading) return <p>Loading...</p>;
   if (!blogData) return <p>Blog not found</p>;
-
-  const isOwner = user._id && blogData.user?._id === user._id;
 
   return (
     <div className="viewblog-container">
@@ -67,36 +41,6 @@ const ViewBlog = () => {
             <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
             <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
           </div>
-
-          {/* Owner buttons */}
-          {isOwner && (
-            <>
-              <div className="desktop-actions">
-                <button className="icon-btn" onClick={handleEdit}>
-                  <CiEdit size={26} />
-                </button>
-                <button className="icon-btn delete" onClick={handleDelete}>
-                  <MdDelete size={26} />
-                </button>
-              </div>
-
-              <div className="mobile-actions">
-                <button className="icon-btn" onClick={() => setMenuOpen(!menuOpen)}>
-                  <FiMoreVertical size={18} />
-                </button>
-                {menuOpen && (
-                  <div className="mobile-menu">
-                    <button onClick={handleEdit}>
-                      <CiEdit size={16} /> Edit
-                    </button>
-                    <button onClick={handleDelete}>
-                      <MdDelete size={16} /> Delete
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
         </div>
 
         <p className="blog-date">

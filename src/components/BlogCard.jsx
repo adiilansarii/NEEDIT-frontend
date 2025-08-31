@@ -1,12 +1,8 @@
 import React from "react";
 import "../css/BlogCard.css";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { baseURL } from "../url";
+import { Link } from "react-router-dom";
 
-const BlogCard = ({ blog, loggedInUserId }) => {
-  const navigate = useNavigate();
-
+const BlogCard = ({ blog }) => {
   const getTimeAgo = (createdAt) => {
     const now = new Date();
     const diffMs = now - new Date(createdAt);
@@ -18,22 +14,6 @@ const BlogCard = ({ blog, loggedInUserId }) => {
     if (diffHours < 24) return `${diffHours} hours ago`;
     const diffDays = Math.floor(diffHours / 24);
     return `${diffDays} days ago`;
-  };
-
-  const isOwner = blog.user?._id === loggedInUserId;
-
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this blog?")) return;
-    try {
-      await axios.delete(`${baseURL}/blogs/${blog._id}`, {
-        withCredentials: true,
-      });
-      alert("Blog deleted successfully!");
-      navigate(0); // reload page
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete blog.");
-    }
   };
 
   return (
@@ -61,17 +41,6 @@ const BlogCard = ({ blog, loggedInUserId }) => {
         <Link to={`/blogs/${blog._id}`} className="view-btn">
           View
         </Link>
-
-        {isOwner && (
-          <>
-            <button className="edit-btn" onClick={() => navigate(`/edit/${blog._id}`)}>
-              Edit
-            </button>
-            <button className="delete-btn" onClick={handleDelete}>
-              Delete
-            </button>
-          </>
-        )}
       </div>
     </div>
   );

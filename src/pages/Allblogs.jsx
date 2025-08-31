@@ -12,8 +12,6 @@ export default function BlogList() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const loggedInUser = JSON.parse(localStorage.getItem("user"));
-
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -47,7 +45,6 @@ export default function BlogList() {
         </div>
       </div>
 
-      {/* Categories */}
       <div className="categories">
         {categories.map((cat, index) => (
           <button
@@ -63,12 +60,9 @@ export default function BlogList() {
         </Link>
       </div>
 
-      {/* Blog List */}
       <div className="blog-list">
         {filteredBlogs.length > 0 ? (
-          filteredBlogs.map((blog) => (
-            <BlogCard key={blog._id} blog={blog} loggedInUser={loggedInUser} />
-          ))
+          filteredBlogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)
         ) : (
           <p>No blogs found for {selectedCategory}.</p>
         )}
