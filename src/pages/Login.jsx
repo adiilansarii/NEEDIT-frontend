@@ -24,10 +24,9 @@ const Login = () => {
         { email, password },
         { withCredentials: true } // important for cookies
       );
-
       if (res.status === 200) {
-        // login successful, redirect to home
-        window.location.href = "/"; 
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // store logged-in user
+        window.location.href = "/";
       }
     } catch (err) {
       console.error("Login error:", err.response || err);

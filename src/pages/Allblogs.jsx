@@ -10,15 +10,17 @@ const categories = ["All", "Tech", "Non-Tech", "Core"];
 export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Fetch blogs from live backend
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const res = await axios.get(`${baseURL}/blogs`, {
-          withCredentials: true, // if backend requires cookie auth
+          withCredentials: true,
         });
-        setBlogs(res.data); // Save blogs in state
+        setBlogs(res.data);
       } catch (err) {
         console.error("Error fetching blogs:", err);
         alert("Failed to fetch blogs. Please try again later.");
@@ -29,13 +31,15 @@ export default function BlogList() {
     fetchBlogs();
   }, []);
 
-  if (loading) {
-    return <div className="blog-container">Loading blogs...</div>;
-  }
+  if (loading) return <div className="blog-container">Loading blogs...</div>;
+
+  const filteredBlogs =
+    selectedCategory === "All"
+      ? blogs
+      : blogs.filter((blog) => blog.category === selectedCategory);
 
   return (
     <div className="blog-container">
-      {/* Header */}
       <div className="blog-header-with-btn">
         <div className="blog-header">
           <span className="blog-tag">All You Need to Know</span>
@@ -46,7 +50,11 @@ export default function BlogList() {
       {/* Categories */}
       <div className="categories">
         {categories.map((cat, index) => (
-          <button key={index} className="category-btn">
+          <button
+            key={index}
+            className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
+            onClick={() => setSelectedCategory(cat)}
+          >
             {cat}
           </button>
         ))}
@@ -57,10 +65,12 @@ export default function BlogList() {
 
       {/* Blog List */}
       <div className="blog-list">
-        {blogs.length > 0 ? (
-          blogs.map((blog, index) => <BlogCard key={index} blog={blog} />)
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} loggedInUser={loggedInUser} />
+          ))
         ) : (
-          <p>No blogs found.</p>
+          <p>No blogs found for {selectedCategory}.</p>
         )}
       </div>
     </div>

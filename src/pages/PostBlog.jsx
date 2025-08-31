@@ -55,7 +55,7 @@ export default function PostBlog() {
         <label htmlFor="category">Category</label>
         <select id="category" name="category" value={formData.category} onChange={handleChange}>
           <option value="Tech">Tech</option>
-          <option value="Non Tech">Non Tech</option>
+          <option value="Non-Tech">Non-Tech</option>
           <option value="Core">Core</option>
           <option value="Others">Others</option>
         </select>

@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PostBlog from "./pages/PostBlog";
 import ViewBlog from "./pages/ViewBlog";
+import EditBlog from "./pages/editBlog";
 
 // Fallback Page (for invalid routes)
 const NotFound = () => (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/blogs" element={<Allblogs />} />
         <Route path="/blogs/post" element={<PostBlog />} />
         <Route path="/blogs/:id" element={<ViewBlog />} />
+        <Route path="/edit/:id" element={<EditBlog/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Profile />} />
