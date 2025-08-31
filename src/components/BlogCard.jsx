@@ -1,8 +1,6 @@
 import React from "react";
 import "../css/BlogCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { CiEdit } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { baseURL } from "../url";
 
@@ -10,7 +8,6 @@ const BlogCard = ({ blog, loggedInUserId }) => {
   const navigate = useNavigate();
 
   const getTimeAgo = (createdAt) => {
-    if (!createdAt) return "Unknown";
     const now = new Date();
     const diffMs = now - new Date(createdAt);
     const diffSeconds = Math.floor(diffMs / 1000);
@@ -23,9 +20,7 @@ const BlogCard = ({ blog, loggedInUserId }) => {
     return `${diffDays} days ago`;
   };
 
-  const handleEdit = () => {
-    navigate(`/edit/${blog._id}`);
-  };
+  const isOwner = blog.user?._id === loggedInUserId;
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
@@ -34,9 +29,9 @@ const BlogCard = ({ blog, loggedInUserId }) => {
         withCredentials: true,
       });
       alert("Blog deleted successfully!");
-      navigate("/blogs"); // Redirect after delete
+      navigate(0); // reload page
     } catch (err) {
-      console.error("Failed to delete blog:", err);
+      console.error(err);
       alert("Failed to delete blog.");
     }
   };
@@ -55,33 +50,27 @@ const BlogCard = ({ blog, loggedInUserId }) => {
 
       <div className="blog-middle">
         <p className="date">{getTimeAgo(blog.createdAt)}</p>
-        <h2 className="title">{blog.title || "Untitled"}</h2>
+        <h2 className="title">{blog.title}</h2>
         <p className="type">
-          {blog.company || "Unknown"} <span>|</span> {blog.category || "N/A"}
+          {blog.company} <span>|</span> {blog.category}
         </p>
-        <p className="desc">
-          {blog.content
-            ? blog.content.split(" ").slice(0, 15).join(" ") + "..."
-            : "No content"}
-        </p>
+        <p className="desc">{blog.content.split(" ").slice(0, 15).join(" ")}...</p>
       </div>
 
       <div className="blog-right">
-        {/* View button for all */}
-        <Link to={`/blogs/${blog._id || ""}`} className="view-btn">
+        <Link to={`/blogs/${blog._id}`} className="view-btn">
           View
         </Link>
 
-        {/* Edit/Delete only for owner */}
-        {loggedInUserId && blog.user?._id === loggedInUserId && (
-          <div className="owner-actions">
-            <button className="icon-btn edit-btn" onClick={handleEdit}>
-              <CiEdit size={20} />
+        {isOwner && (
+          <>
+            <button className="edit-btn" onClick={() => navigate(`/edit/${blog._id}`)}>
+              Edit
             </button>
-            <button className="icon-btn delete-btn" onClick={handleDelete}>
-              <MdDelete size={20} />
+            <button className="delete-btn" onClick={handleDelete}>
+              Delete
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>
