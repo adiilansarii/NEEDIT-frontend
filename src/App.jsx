@@ -14,7 +14,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PostBlog from "./pages/PostBlog";
 import ViewBlog from "./pages/ViewBlog";
-import EditBlog from "./pages/editBlog";
+import EditBlog from "./pages/EditBlog";
 
 // Fallback Page (for invalid routes)
 const NotFound = () => (
