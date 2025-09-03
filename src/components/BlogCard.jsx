@@ -22,7 +22,7 @@ const BlogCard = ({ blog }) => {
         <div className="avatar-placeholder">
           {blog.user?.fullName?.charAt(0).toUpperCase() || "U"}
         </div>
-        <div>
+        <div className="author-info">
           <p className="author">{blog.user?.fullName || "Unknown"}</p>
           <p className="branch">{blog.user?.branch || "Unknown branch"}</p>
         </div>
@@ -32,9 +32,9 @@ const BlogCard = ({ blog }) => {
         <p className="date">{getTimeAgo(blog.createdAt)}</p>
         <h2 className="title">{blog.title}</h2>
         <p className="type">
-          {blog.company} <span>|</span> {blog.category}
+          <span className="company-name">{blog.company}</span> | {blog.category}
         </p>
-        <p className="desc">{blog.content.split(" ").slice(0, 15).join(" ")}...</p>
+        <p className="desc">{blog.content.split(" ").slice(0, 20).join(" ")}...</p>
       </div>
 
       <div className="blog-right">

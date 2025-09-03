@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 import "../css/Login.css";
-
-const baseURL = "https://needit-backend.onrender.com"; // make sure no trailing slash
+import { baseURL } from "../url";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
@@ -25,13 +24,33 @@ const Login = () => {
         { withCredentials: true } // important for cookies
       );
       if (res.status === 200) {
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // store logged-in user
+        toast.success("Login successfully !", {
+               style: {
+                 backgroundColor: "#fdfdfdff", // orange-red
+                 color: "black",
+                 padding: "0.4rem 0.8rem",
+                 borderRadius: "5px",
+                 textAlign: "center",
+                 fontSize: "14px",
+                 minWidth: "160px",
+               },
+             });
         window.location.href = "/";
       }
     } catch (err) {
       console.error("Login error:", err.response || err);
       const message = err.response?.data?.message || "Login failed";
-      alert(message);
+       toast.success(message,{
+              style: {
+                backgroundColor: "#fdfdfdff", // orange-red
+                color: "black",
+                padding: "0.4rem 0.8rem",
+                borderRadius: "5px",
+                textAlign: "center",
+                fontSize: "14px",
+                minWidth: "160px",
+              },
+            });
     }
   };
 

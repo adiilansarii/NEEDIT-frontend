@@ -14,13 +14,17 @@ export default function Footer() {
       </div>
 
       <div className="footer-center">
-        <a href="#" aria-label="Twitter">
+        <a href="https://x.com/adiilansariii"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Twitter">
           <FaTwitter />
         </a>
-        <a href="#" aria-label="Instagram">
+        <a href="https://www.instagram.com/adiilansarii/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
           <FaInstagram />
         </a>
-        <a href="#" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/adil-ansari35830/" target="_blank"
+          rel="noopener noreferrer" aria-label="LinkedIn">
           <FaLinkedin />
         </a>
       </div>

@@ -6,6 +6,7 @@
     min-height: 100vh;
     background-color: #111;
     padding: 2rem;
+    
 }
 
 .postblog-form {
@@ -19,6 +20,7 @@
     gap: 1.2rem;
     box-shadow: 0 0 20px rgba(244, 194, 13, 0.1);
     border: 1px solid #222;
+    
 }
 
 .postblog-title {
@@ -49,13 +51,7 @@ textarea {
     resize: vertical;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: #f4c20d;
-    box-shadow: 0 0 5px rgba(244, 194, 13, 0.5);
-}
+
 
 /* Buttons */
 .post-btn {

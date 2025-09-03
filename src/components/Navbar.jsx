@@ -12,7 +12,6 @@ const Navbar = () => {
   const menuRef = useRef(null);
 
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   // Detect clicks outside menu
   useEffect(() => {
@@ -33,8 +32,6 @@ const Navbar = () => {
         setUser(res.data.user);
       } catch (err) {
         setUser(null);
-      } finally {
-        setLoading(false);
       }
     };
     fetchUser();
@@ -52,7 +49,6 @@ const Navbar = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
 
   return (
     <nav className="navbar" ref={menuRef}>

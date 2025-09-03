@@ -66,7 +66,7 @@ export default function EditBlog() {
       <form className="postblog-form" onSubmit={handleUpdate}>
         <h2 className="postblog-title">Edit Blog</h2>
 
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">Job Title</label>
         <input
           type="text"
           id="title"

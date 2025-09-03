@@ -48,7 +48,7 @@ export default function PostBlog() {
     <div className="postblog-container">
       <form className="postblog-form" onSubmit={handleSubmit}>
         <h2 className="postblog-title">Interview Experience</h2>
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">Job Title</label>
         <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required />
         <label htmlFor="company">Company Name</label>
         <input type="text" id="company" name="company" value={formData.company} onChange={handleChange} required />

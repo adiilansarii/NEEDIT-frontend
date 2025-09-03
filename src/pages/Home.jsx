@@ -6,6 +6,7 @@ import { PiStudentBold } from "react-icons/pi";
 import { GrResources } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { baseURL } from "../url";
+import { Loader } from "../components/Loader";
 
 export default function Home() {
   const [user, setUser] = useState(null);  // store logged-in user
@@ -22,7 +23,9 @@ export default function Home() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+  return <Loader />; // returns Loader instead of the main UI
+}
 
   return (
     <div className="home-container">
@@ -40,10 +43,9 @@ export default function Home() {
 
         <aside className="hero-right">
           <div className="explore-box">
-            <h3 className="explore-title">Access 1000+ Tech Insights</h3>
+            <h3 className="explore-title">Access Tech Insights</h3>
             <p className="explore-sub">
-              Get inspired and informed with our extensive collection of
-              cutting-edge tech articles.
+              Step into the shoes of candidates who’ve been there - their experiences could be the key to your success.
             </p>
             {user ? (
               <Link to="/blogs" className="explore-btn">View</Link>
@@ -57,32 +59,32 @@ export default function Home() {
       {/* FEATURES */}
       <section className="features">
         <Link to={user ? "/blogs" : "/login"} className="contri">
-        <div className="feature">
+          <div className="feature">
             <div className="feature-icon"><PiStudentBold /></div>
             <div className="feature-body">
               <h4>Students Contributions</h4>
               <p className="muted">Trusted Insights</p>
               <small>Written by Students from Your Own Campus</small>
             </div>
-        </div>
+          </div>
         </Link>
 
         <Link
-          to={user 
-            ? "https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen" 
+          to={user
+            ? "https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen"
             : "/login"}
           className="contri"
           target={user ? "_blank" : "_self"}
           rel="noopener noreferrer"
         >
-        <div className="feature">
+          <div className="feature">
             <div className="feature-icon"><FaRegNewspaper /></div>
             <div className="feature-body">
               <h4>Tech Updates</h4>
               <p className="muted">Stay Connected</p>
               <small>New Opportunities Added Every Day</small>
             </div>
-        </div>
+          </div>
         </Link>
 
         <Link
@@ -91,14 +93,14 @@ export default function Home() {
           target={user ? "_blank" : "_self"}
           rel="noopener noreferrer"
         >
-        <div className="feature">
+          <div className="feature">
             <div className="feature-icon"><GrResources /></div>
             <div className="feature-body">
               <h4>Top-Notch Resources</h4>
               <p className="muted">Built to Power Your Prep</p>
               <small>Trusted by Students, Proven to Work</small>
             </div>
-        </div>
+          </div>
         </Link>
       </section>
     </div>

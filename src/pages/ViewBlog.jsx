@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../css/ViewBlog.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
+import { Loader } from "../components/Loader";
+import { FiEdit, FiTrash2 } from "react-icons/fi"; // Edit and Delete icons
 
 const ViewBlog = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,20 +29,50 @@ const ViewBlog = () => {
     fetchBlog();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  const handleEdit = () => {
+    navigate(`/edit/${id}`);
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        await axios.delete(`${baseURL}/blogs/${id}`, {
+          withCredentials: true,
+        });
+        alert("Blog deleted successfully!");
+        navigate("/blogs");
+      } catch (err) {
+        console.error("Delete failed:", err);
+        alert("Failed to delete blog.");
+      }
+    }
+  };
+
+  if (loading) return <Loader />;
   if (!blogData) return <p>Blog not found</p>;
 
   return (
     <div className="viewblog-container">
       <div className="view-blog-card">
         <div className="view-blog-header">
-          <div className="avatar-placeholder">
-            {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"}
+          <div className="author-left">
+            <div className="avatar-placeholder">
+              {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"}
+            </div>
+            <div className="author-info">
+              <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
+              <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
+            </div>
           </div>
 
-          <div className="author-info">
-            <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
-            <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
+          {/* Buttons aligned to right */}
+          <div className="desktop-actions">
+            <button className="icon-btn edit" onClick={handleEdit}>
+              <FiEdit />
+            </button>
+            <button className="icon-btn delete" onClick={handleDelete}>
+              <FiTrash2 />
+            </button>
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import "../css/Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -31,7 +32,18 @@ const Signup = () => {
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Password not matched!", {
+        style: {
+          backgroundColor: "#fdfdfdff", // orange-red
+          color: "black",
+          padding: "0.4rem 0.8rem",
+          borderRadius: "5px",
+          textAlign: "center",
+          fontSize: "14px",
+          minWidth: "160px",
+        },
+      });
+
       return;
     }
 
@@ -47,13 +59,35 @@ const Signup = () => {
       );
 
       if (res.status === 201) {
-        alert("Account created successfully!");
+        toast.success("Account created successfully !", {
+        style: {
+          backgroundColor: "#fdfdfdff", // orange-red
+          color: "black",
+          padding: "0.4rem 0.8rem",
+          borderRadius: "5px",
+          textAlign: "center",
+          fontSize: "14px",
+          minWidth: "160px",
+        },
+      });
+
         navigate("/login");
       }
     } catch (err) {
       console.error("Signup error:", err);
       const message = err.response?.data?.message || "Signup failed";
-      alert(message);
+      toast.error(message, {
+        style: {
+          backgroundColor: "#fdfdfdff", // orange-red
+          color: "black",
+          padding: "0.4rem 0.8rem",
+          borderRadius: "5px",
+          textAlign: "center",
+          fontSize: "14px",
+          minWidth: "160px",
+        },
+      });
+
     }
   };
 

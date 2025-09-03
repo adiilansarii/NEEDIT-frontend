@@ -1,6 +1,8 @@
 import React from "react";
 import "./css/App.css";
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -43,7 +45,7 @@ function App() {
         <Route path="/blogs" element={<Allblogs />} />
         <Route path="/blogs/post" element={<PostBlog />} />
         <Route path="/blogs/:id" element={<ViewBlog />} />
-        <Route path="/edit/:id" element={<EditBlog/>} />
+        <Route path="/edit/:id" element={<EditBlog />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Profile />} />
@@ -51,6 +53,20 @@ function App() {
       </Routes>
 
       <Footer />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}  // disappears after 3 seconds
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        style={{
+          minWidth: "40vw",      // 50% of screen width
+          maxWidth: "80vw",     // limit max widt
+        }}
+      />
+
     </div>
   );
 }

@@ -4,6 +4,7 @@ import BlogCard from "../components/BlogCard";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../url";
+import { Loader } from "../components/Loader";
 
 const categories = ["All", "Tech", "Non-Tech", "Core"];
 
@@ -29,7 +30,9 @@ export default function BlogList() {
     fetchBlogs();
   }, []);
 
-  if (loading) return <div className="blog-container">Loading blogs...</div>;
+  if (loading) {
+  return <Loader/>; // returns Loader instead of the main UI
+}
 
   const filteredBlogs =
     selectedCategory === "All"
