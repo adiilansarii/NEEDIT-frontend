@@ -40,7 +40,7 @@ const Login = () => {
     } catch (err) {
       console.error("Login error:", err.response || err);
       const message = err.response?.data?.message || "Login failed";
-       toast.success(message,{
+       toast.error(message,{
               style: {
                 backgroundColor: "#fdfdfdff", // orange-red
                 color: "black",
