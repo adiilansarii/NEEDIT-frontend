@@ -11,9 +11,24 @@ const ViewBlog = () => {
   const navigate = useNavigate();
   const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Fetch logged-in user
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/`, { withCredentials: true });
+        setCurrentUser(res.data.user || null);
+      } catch (err) {
+        setCurrentUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchBlog = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`${baseURL}/blogs/${id}`, {
           withCredentials: true,
@@ -49,7 +64,14 @@ const ViewBlog = () => {
   };
 
   if (loading) return <Loader />;
-  if (!blogData) return <p>Blog not found</p>;
+
+  if (!blogData) return <div style={{ color: "#fff", textAlign: "center" }}>Blog not found</div>;
+
+  const isOwner =
+    currentUser &&
+    blogData.user &&
+    (blogData.user._id === currentUser._id ||
+      blogData.user === currentUser._id); // for cases when user is just the id
 
   return (
     <div className="viewblog-container">
@@ -57,26 +79,35 @@ const ViewBlog = () => {
         <div className="view-blog-header">
           <div className="author-left">
             <div className="avatar-placeholder">
-              {blogData.user?.fullName?.charAt(0).toUpperCase() || "U"}
+              {blogData.user?.fullName
+                ? blogData.user.fullName
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                    .toUpperCase()
+                : "AU"}
             </div>
             <div className="author-info">
-              <h4 className="author-name">{blogData.user?.fullName || "Unknown"}</h4>
-              <p className="branch">{blogData.user?.branch || "Unknown branch"}</p>
+              <span className="author-name">
+                {blogData.user?.fullName || "Unknown"}
+              </span>
+              <span className="branch">
+                {blogData.user?.branch || "Unknown branch"}
+              </span>
             </div>
           </div>
-
-          {/* Buttons aligned to right */}
-          <div className="desktop-actions">
-            <button className="icon-btn edit" onClick={handleEdit}>
-              <FiEdit />
-            </button>
-            <button className="icon-btn delete" onClick={handleDelete}>
-              <FiTrash2 />
-            </button>
-          </div>
+          {isOwner && (
+            <div className="desktop-actions">
+              <button className="icon-btn edit" onClick={handleEdit}>
+                <FiEdit />
+              </button>
+              <button className="icon-btn delete" onClick={handleDelete}>
+                <FiTrash2 />
+              </button>
+            </div>
+          )}
         </div>
-
-        <p className="blog-date">
+        <div className="blog-date">
           {blogData.createdAt
             ? new Date(blogData.createdAt).toLocaleDateString("en-GB", {
                 day: "2-digit",
@@ -84,13 +115,12 @@ const ViewBlog = () => {
                 year: "numeric",
               })
             : "Unknown date"}
-        </p>
-
-        <h2 className="blog-title">{blogData.title}</h2>
-        <p className="blog-category">
+        </div>
+        <h1 className="blog-title">{blogData.title}</h1>
+        <div className="blog-category">
           {blogData.company} | {blogData.category}
-        </p>
-        <p className="blog-content">{blogData.content}</p>
+        </div>
+        <div className="blog-content">{blogData.content}</div>
       </div>
     </div>
   );
