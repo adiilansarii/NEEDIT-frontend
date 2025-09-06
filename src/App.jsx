@@ -1,15 +1,11 @@
-import React from "react";
-import "./css/App.css";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
-// Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Profile from "./components/Profile";
 
-// Pages
 import Home from "./pages/Home";
 import Allblogs from "./pages/Allblogs";
 import Login from "./pages/Login";
@@ -17,57 +13,60 @@ import Signup from "./pages/Signup";
 import PostBlog from "./pages/PostBlog";
 import ViewBlog from "./pages/ViewBlog";
 import EditBlog from "./pages/EditBlog";
+import AdminDashboard from "./pages/AdminDashboard";
 
-// Fallback Page (for invalid routes)
+import { baseURL } from "./url";
+
 const NotFound = () => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",  // full screen height
-      backgroundColor: "black", // optional, so white text is visible
-    }}
-  >
-    <h2 style={{ color: "white" }}>404 - Page Not Found</h2>
-  </div>
+  <h2 style={{ color: "#eee", textAlign: "center", padding: "2rem" }}>
+    Page Not Found
+  </h2>
 );
 
-
-
 function App() {
-  return (
-    <div className="page-container">
-      <Navbar />
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(baseURL, { withCredentials: true });
+        setUser(res.data.user);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  if (loadingUser) return <div style={{ color: "#eee", textAlign: "center", marginTop: "3rem" }}>Loading...</div>;
+
+  // Redirect admin user to admin dashboard
+  if (user?.role === "admin") {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
+  return (
+    <>
+      <ToastContainer />
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} />} />
         <Route path="/blogs" element={<Allblogs />} />
-        <Route path="/blogs/post" element={<PostBlog />} />
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+        <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
+
+        <Route path="/post" element={user ? <PostBlog /> : <Navigate to="/login" />} />
         <Route path="/blogs/:id" element={<ViewBlog />} />
-        <Route path="/edit/:id" element={<EditBlog />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/contact" element={<Profile />} />
+        <Route path="/edit/:id" element={user ? <EditBlog /> : <Navigate to="/login" />} />
+
+        <Route path="/admin/dashboard" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-
       <Footer />
-
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}  // disappears after 3 seconds
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        pauseOnHover
-        style={{
-          minWidth: "40vw",      // 50% of screen width
-          maxWidth: "80vw",     // limit max widt
-        }}
-      />
-
-    </div>
+    </>
   );
 }
 
