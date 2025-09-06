@@ -43,17 +43,17 @@ function App() {
 
   if (loadingUser) return <div style={{ color: "#eee", textAlign: "center", marginTop: "3rem" }}>Loading...</div>;
 
-  // Redirect admin user to admin dashboard
-  if (user?.role === "admin") {
+  // Redirect admin to admin dashboard
+  if (user?.role === "admin" && window.location.pathname !== "/admin/dashboard") {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
   return (
     <>
       <ToastContainer />
-      <Navbar />
+      <Navbar user={user} />
       <Routes>
-        <Route path="/" element={<Home user={user} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Allblogs />} />
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
         <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
@@ -63,6 +63,7 @@ function App() {
         <Route path="/edit/:id" element={user ? <EditBlog /> : <Navigate to="/login" />} />
 
         <Route path="/admin/dashboard" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
