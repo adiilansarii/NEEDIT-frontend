@@ -88,7 +88,7 @@ export default function Home() {
         </Link>
 
         <Link
-          to={user ? "https://www.w3schools.com/" : "/login"}
+          to={user ? "https://need-bot.vercel.app/" : "/login"}
           className="contri"
           target={user ? "_blank" : "_self"}
           rel="noopener noreferrer"
@@ -96,8 +96,8 @@ export default function Home() {
           <div className="feature">
             <div className="feature-icon"><GrResources /></div>
             <div className="feature-body">
-              <h4>Top-Notch Resources</h4>
-              <p className="muted">Built to Power Your Prep</p>
+              <h4>Talk To NEED-BOT</h4>
+              <p className="muted">Built to Power Your Prep with NEED-BOT</p>
               <small>Trusted by Students, Proven to Work</small>
             </div>
           </div>
